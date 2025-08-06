@@ -1,0 +1,99 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: Customer dimension table with comprehensive customer information
+    columns:
+      - name: customer_id
+        description: Unique customer identifier
+        tests:
+          - unique
+          - not_null
+      - name: email
+        description: Customer email address
+        tests:
+          - unique
+      - name: total_balance
+        description: Total balance across all accounts
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+      - name: customer_segment
+        description: Customer segmentation tier
+        tests:
+          - accepted_values:
+              values: ['PREMIUM', 'AFFLUENT', 'MASS_AFFLUENT', 'MASS_MARKET', 'BASIC']
+
+  - name: fct_transactions
+    description: Transaction fact table for analytics
+    columns:
+      - name: transaction_id
+        description: Unique transaction identifier
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: Customer identifier
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customers')
+              field: customer_id
+      - name: transaction_date
+        description: Date of transaction
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= '2020-01-01'"
+      - name: amount
+        description: Transaction amount
+        tests:
+          - not_null
+
+  - name: financial_kpis
+    description: Key financial performance indicators
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "npl_ratio >= 0 and npl_ratio <= 1"
+          config:
+            severity: warn
+      - dbt_utils.expression_is_true:
+          expression: "loan_to_deposit_ratio >= 0"
+
+  - name: customer_risk_profile
+    description: Customer risk assessment and scoring
+    columns:
+      - name: customer_id
+        description: Unique customer identifier
+        tests:
+          - unique
+          - not_null
+      - name: calculated_risk_score
+        description: Calculated risk score (0-100)
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+              inclusive: true
+      - name: calculated_risk_tier
+        description: Risk tier based on calculated score
+        tests:
+          - accepted_values:
+              values: ['VERY_LOW', 'LOW', 'MEDIUM', 'HIGH', 'VERY_HIGH']
+
+  - name: customer_analytics
+    description: Customer behavior analytics and insights
+    columns:
+      - name: customer_id
+        description: Unique customer identifier
+        tests:
+          - unique
+          - not_null
+      - name: engagement_score
+        description: Customer engagement score (0-100)
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+              inclusive: true

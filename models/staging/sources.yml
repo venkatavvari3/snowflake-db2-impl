@@ -1,0 +1,127 @@
+version: 2
+
+sources:
+  - name: raw_banking
+    description: Raw banking data from various source systems
+    database: CAPITAL_ONE_RAW
+    schema: banking_data
+    tables:
+      - name: customers
+        description: Customer master data from core banking system
+        columns:
+          - name: customer_id
+            description: Unique customer identifier
+            tests:
+              - unique
+              - not_null
+          - name: email
+            description: Customer email address
+            tests:
+              - unique
+          - name: customer_since
+            description: Date when customer relationship started
+            tests:
+              - not_null
+          - name: _loaded_at
+            description: Timestamp when record was loaded
+            tests:
+              - not_null
+
+      - name: accounts
+        description: Account information from core banking system
+        columns:
+          - name: account_id
+            description: Unique account identifier
+            tests:
+              - unique
+              - not_null
+          - name: customer_id
+            description: Foreign key to customers table
+            tests:
+              - not_null
+              - relationships:
+                  to: source('raw_banking', 'customers')
+                  field: customer_id
+          - name: balance
+            description: Current account balance
+            tests:
+              - not_null
+          - name: opened_date
+            description: Date when account was opened
+            tests:
+              - not_null
+
+      - name: transactions
+        description: Transaction data from payment processing systems
+        columns:
+          - name: transaction_id
+            description: Unique transaction identifier
+            tests:
+              - unique
+              - not_null
+          - name: account_id
+            description: Foreign key to accounts table
+            tests:
+              - not_null
+              - relationships:
+                  to: source('raw_banking', 'accounts')
+                  field: account_id
+          - name: transaction_date
+            description: Date of transaction
+            tests:
+              - not_null
+          - name: amount
+            description: Transaction amount
+            tests:
+              - not_null
+
+      - name: credit_loans
+        description: Credit products and loan information
+        columns:
+          - name: loan_id
+            description: Unique loan/credit product identifier
+            tests:
+              - unique
+              - not_null
+          - name: customer_id
+            description: Foreign key to customers table
+            tests:
+              - not_null
+              - relationships:
+                  to: source('raw_banking', 'customers')
+                  field: customer_id
+          - name: outstanding_balance
+            description: Current outstanding balance
+            tests:
+              - not_null
+
+      - name: fraud_alerts
+        description: Fraud detection alerts and investigations
+        columns:
+          - name: alert_id
+            description: Unique alert identifier
+            tests:
+              - unique
+              - not_null
+          - name: transaction_id
+            description: Related transaction ID
+          - name: customer_id
+            description: Related customer ID
+            tests:
+              - not_null
+
+      - name: kyc_aml
+        description: Know Your Customer and Anti-Money Laundering data
+        columns:
+          - name: kyc_id
+            description: Unique KYC record identifier
+            tests:
+              - unique
+              - not_null
+          - name: customer_id
+            description: Foreign key to customers table
+            tests:
+              - not_null
+              - relationships:
+                  to: source('raw_banking', 'customers')
+                  field: customer_id

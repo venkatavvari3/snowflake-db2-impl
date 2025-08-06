@@ -1,0 +1,29 @@
+# Snowflake connection profile for Capital One UK
+capital_one_snowflake:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role: "{{ env_var('SNOWFLAKE_ROLE', 'TRANSFORMER') }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE', 'CAPITAL_ONE_ANALYTICS') }}"
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE', 'ANALYTICS_WH') }}"
+      schema: "{{ env_var('SNOWFLAKE_SCHEMA', 'DEV') }}"
+      threads: 8
+      keepalives_idle: 240
+      search_path: "{{ env_var('SNOWFLAKE_SEARCH_PATH', '$user, public') }}"
+      
+    prod:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      role: "{{ env_var('SNOWFLAKE_ROLE', 'TRANSFORMER') }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE', 'CAPITAL_ONE_ANALYTICS') }}"
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE', 'ANALYTICS_WH') }}"
+      schema: PROD
+      threads: 12
+      keepalives_idle: 240
+      search_path: "{{ env_var('SNOWFLAKE_SEARCH_PATH', '$user, public') }}"
