@@ -1,4 +1,4 @@
-# dbt project configuration for Capital One UK Banking Analytics
+# dbt project configuration for cap111 UK Banking Analytics
 name: 'capital_one_analytics'
 version: '1.0.0'
 config-version: 2

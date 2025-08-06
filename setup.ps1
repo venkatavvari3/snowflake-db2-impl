@@ -1,7 +1,7 @@
-# Capital One UK Banking Analytics - Setup Script
+# cap111 UK Banking Analytics - Setup Script
 # This script helps set up the dbt project for development
 
-Write-Host "Capital One UK Banking Analytics - dbt Setup" -ForegroundColor Green
+Write-Host "cap111 UK Banking Analytics - dbt Setup" -ForegroundColor Green
 Write-Host "================================================" -ForegroundColor Green
 
 # Check if Python is installed

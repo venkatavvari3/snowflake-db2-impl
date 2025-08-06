@@ -1,4 +1,4 @@
-# SQL Style Guide for Capital One Banking Project
+# SQL Style Guide for cap111 Banking Project
 
 [sqlfluff]
 dialect = snowflake

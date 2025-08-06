@@ -1,4 +1,4 @@
-# Capital One Banking Analytics Pipeline Orchestration
+# cap111 Banking Analytics Pipeline Orchestration
 # This script runs the complete ELT pipeline in the correct order
 
 param(
@@ -8,7 +8,7 @@ param(
     [switch]$DocsOnly
 )
 
-Write-Host "Capital One Banking Analytics Pipeline" -ForegroundColor Green
+Write-Host "cap111 Banking Analytics Pipeline" -ForegroundColor Green
 Write-Host "=====================================" -ForegroundColor Green
 Write-Host "Target Environment: $Target" -ForegroundColor Yellow
 

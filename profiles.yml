@@ -1,4 +1,4 @@
-# Snowflake connection profile for Capital One UK
+# Snowflake connection profile for cap111 UK
 capital_one_snowflake:
   target: dev
   outputs:
