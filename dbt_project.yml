@@ -1,10 +1,10 @@
 # dbt project configuration for cap111 UK Banking Analytics
-name: 'capital_one_analytics'
+name: 'cap111_analytics'
 version: '1.0.0'
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 'capital_one_snowflake'
+profile: 'cap111_snowflake'
 
 # These configurations specify where dbt should look for different types of files.
 model-paths: ["models"]
@@ -21,7 +21,7 @@ clean-targets:
 
 # Configuring models
 models:
-  capital_one_analytics:
+  cap111_analytics:
     # Config indicated by + and applies to all files under models/staging/
     staging:
       +materialized: view
@@ -40,7 +40,7 @@ models:
 
 # Snapshot configurations
 snapshots:
-  capital_one_analytics:
+  cap111_analytics:
     +target_schema: snapshots
     +strategy: timestamp
     +updated_at: updated_at
@@ -49,10 +49,6 @@ snapshots:
 tests:
   +store_failures: true
   +schema: test_failures
-
-# Documentation
-docs:
-  +node_color: "#1f8b4c"
 
 vars:
   # Timezone for the project

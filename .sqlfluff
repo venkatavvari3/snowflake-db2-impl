@@ -27,5 +27,5 @@ capitalisation_policy = upper
 [sqlfluff:templater:dbt]
 project_dir = .
 profiles_dir = .
-profile = capital_one_snowflake
+profile = cap111_snowflake
 target = dev

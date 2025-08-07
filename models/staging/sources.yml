@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: raw_banking
     description: Raw banking data from various source systems
-    database: CAPITAL_ONE_RAW
+    database: cap111_RAW
     schema: banking_data
     tables:
       - name: customers

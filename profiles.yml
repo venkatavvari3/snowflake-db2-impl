@@ -1,5 +1,5 @@
 # Snowflake connection profile for cap111 UK
-capital_one_snowflake:
+cap111_snowflake:
   target: dev
   outputs:
     dev:
@@ -8,7 +8,7 @@ capital_one_snowflake:
       user: "{{ env_var('SNOWFLAKE_USER') }}"
       password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       role: "{{ env_var('SNOWFLAKE_ROLE', 'TRANSFORMER') }}"
-      database: "{{ env_var('SNOWFLAKE_DATABASE', 'CAPITAL_ONE_ANALYTICS') }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE', 'cap111_ANALYTICS') }}"
       warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE', 'ANALYTICS_WH') }}"
       schema: "{{ env_var('SNOWFLAKE_SCHEMA', 'DEV') }}"
       threads: 8
@@ -21,7 +21,7 @@ capital_one_snowflake:
       user: "{{ env_var('SNOWFLAKE_USER') }}"
       password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
       role: "{{ env_var('SNOWFLAKE_ROLE', 'TRANSFORMER') }}"
-      database: "{{ env_var('SNOWFLAKE_DATABASE', 'CAPITAL_ONE_ANALYTICS') }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE', 'cap111_ANALYTICS') }}"
       warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE', 'ANALYTICS_WH') }}"
       schema: PROD
       threads: 12
