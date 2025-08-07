@@ -3,8 +3,8 @@ version: 2
 sources:
   - name: raw_banking
     description: Raw banking data from various source systems
-    database: cap111_RAW
-    schema: banking_data
+    database: dbt_lab
+    schema: raw_data
     tables:
       - name: customers
         description: Customer master data from core banking system

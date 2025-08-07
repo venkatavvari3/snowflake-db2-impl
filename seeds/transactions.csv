@@ -1,0 +1,8 @@
+transaction_id,account_id,transaction_type,amount,currency,transaction_date,description,merchant_name,merchant_category,reference_number,balance_after_transaction,created_at
+TXN001,ACC001,DEBIT,-25.50,GBP,2024-01-15 10:30:00,Coffee Shop Purchase,Starbucks London,Food & Drink,REF001,2475.00,2024-01-01 00:00:00
+TXN002,ACC001,CREDIT,2000.00,GBP,2024-01-01 09:00:00,Salary Deposit,ABC Company Ltd,Salary,SAL001,2500.50,2024-01-01 00:00:00
+TXN003,ACC001,DEBIT,-150.00,GBP,2024-01-10 14:20:00,Grocery Shopping,Tesco Metro,Groceries,GRO001,2350.50,2024-01-01 00:00:00
+TXN004,ACC002,CREDIT,1000.00,GBP,2024-01-05 12:00:00,Transfer from Current,Internal Transfer,Transfer,TRF001,16000.00,2024-01-01 00:00:00
+TXN005,ACC003,DEBIT,-45.75,GBP,2024-01-12 16:45:00,Online Purchase,Amazon UK,Online Retail,AMZ001,1154.00,2024-01-01 00:00:00
+TXN006,ACC004,CREDIT,1800.00,GBP,2024-01-01 08:30:00,Freelance Payment,XYZ Consulting,Freelance,FRL001,5200.25,2024-01-01 00:00:00
+TXN007,ACC004,DEBIT,-1800.00,GBP,2024-01-20 11:15:00,Rent Payment,Property Management Co,Housing,RENT001,3400.25,2024-01-01 00:00:00

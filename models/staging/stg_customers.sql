@@ -39,7 +39,7 @@ cleaned_data as (
         
         -- Email validation and cleaning
         case 
-            when email ~ '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'
+            when regexp_like(email, '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$')
             then lower(trim(email))
             else null
         end as email,

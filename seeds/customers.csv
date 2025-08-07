@@ -1,0 +1,6 @@
+customer_id,first_name,last_name,email,phone_number,date_of_birth,address_line_1,address_line_2,city,postal_code,country,customer_since,customer_status,risk_rating,created_at,updated_at
+CUST001,John,Smith,john.smith@email.com,+44 20 7946 0958,1985-03-15,123 High Street,Apartment 4B,London,SW1A 1AA,United Kingdom,2020-01-15,ACTIVE,LOW,2024-01-01 00:00:00,2024-01-01 00:00:00
+CUST002,Emma,Johnson,emma.johnson@email.com,+44 161 496 0197,1990-07-22,456 King Road,,Manchester,M1 4ET,United Kingdom,2021-03-10,ACTIVE,MEDIUM,2024-01-01 00:00:00,2024-01-01 00:00:00
+CUST003,Michael,Brown,michael.brown@email.com,+44 131 496 0345,1978-11-03,789 Queen Avenue,Suite 12,Edinburgh,EH1 2NG,United Kingdom,2019-08-20,ACTIVE,LOW,2024-01-01 00:00:00,2024-01-01 00:00:00
+CUST004,Sarah,Davis,sarah.davis@email.com,+44 29 2048 0234,1992-12-01,321 Prince Street,,Cardiff,CF10 3AT,United Kingdom,2022-01-05,ACTIVE,HIGH,2024-01-01 00:00:00,2024-01-01 00:00:00
+CUST005,David,Wilson,david.wilson@email.com,+44 28 9024 0187,1983-05-18,654 Duke Lane,,Belfast,BT1 1AA,United Kingdom,2020-11-30,INACTIVE,MEDIUM,2024-01-01 00:00:00,2024-01-01 00:00:00

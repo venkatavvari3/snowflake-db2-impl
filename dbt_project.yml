@@ -50,6 +50,12 @@ tests:
   +store_failures: true
   +schema: test_failures
 
+# Seed configurations for sample data
+seeds:
+  cap111_analytics:
+    +schema: raw_data
+    +quote_columns: false
+
 vars:
   # Timezone for the project
   timezone: 'Europe/London'
