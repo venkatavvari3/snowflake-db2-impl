@@ -1,0 +1,6 @@
+alert_id,transaction_id,customer_id,account_id,alert_type,alert_severity,alert_date,alert_description,alert_status,investigation_notes,resolved_date,false_positive,created_at,updated_at
+ALERT001,TXN001,CUST001,ACC001,VELOCITY,MEDIUM,2024-01-15 10:35:00,Multiple transactions in short timeframe,RESOLVED,Customer confirmed legitimate transactions,2024-01-15 15:30:00,TRUE,2024-01-01 00:00:00,2024-01-01 00:00:00
+ALERT002,TXN003,CUST001,ACC001,AMOUNT,LOW,2024-01-10 14:25:00,Transaction amount outside normal pattern,RESOLVED,Normal grocery shopping,2024-01-10 16:00:00,TRUE,2024-01-01 00:00:00,2024-01-01 00:00:00
+ALERT003,TXN005,CUST002,ACC003,MERCHANT,HIGH,2024-01-12 16:50:00,New merchant category for customer,ACTIVE,Under investigation,,FALSE,2024-01-01 00:00:00,2024-01-01 00:00:00
+ALERT004,TXN007,CUST003,ACC004,AMOUNT,HIGH,2024-01-20 11:20:00,Large payment transaction,RESOLVED,Confirmed rent payment,2024-01-20 14:00:00,TRUE,2024-01-01 00:00:00,2024-01-01 00:00:00
+ALERT005,,CUST004,,BEHAVIORAL,MEDIUM,2024-01-18 09:00:00,Customer login from new location,RESOLVED,Customer traveling for business,2024-01-18 10:30:00,TRUE,2024-01-01 00:00:00,2024-01-01 00:00:00

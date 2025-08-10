@@ -24,8 +24,7 @@ with source_data as (
         kyc_status,
         risk_rating,
         created_at,
-        updated_at,
-        _loaded_at
+        updated_at
     from {{ source('raw_banking', 'customers') }}
 ),
 

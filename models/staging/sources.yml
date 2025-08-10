@@ -3,8 +3,8 @@ version: 2
 sources:
   - name: raw_banking
     description: Raw banking data from various source systems
-    database: dbt_lab
-    schema: raw_data
+    database: "{{ env_var('SNOWFLAKE_DATABASE', 'DBT_LAB') }}"
+    schema: "{{ env_var('SNOWFLAKE_SCHEMA', 'DEV') }}_raw_data"
     tables:
       - name: customers
         description: Customer master data from core banking system
@@ -103,8 +103,6 @@ sources:
             tests:
               - unique
               - not_null
-          - name: transaction_id
-            description: Related transaction ID
           - name: customer_id
             description: Related customer ID
             tests:
