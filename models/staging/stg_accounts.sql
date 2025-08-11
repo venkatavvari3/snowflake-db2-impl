@@ -21,7 +21,6 @@ with source_data as (
         overdraft_limit,
         created_at,
         updated_at
-        _loaded_at
     from {{ source('raw_banking', 'accounts') }}
 ),
 
@@ -32,18 +31,13 @@ cleaned_data as (
         
         -- Account type standardization
         upper(trim(account_type)) as account_type,
-        upper(trim(account_subtype)) as account_subtype,
         
         -- Account identifiers
         account_number,
-        sort_code,
-        upper(trim(iban)) as iban,
-        trim(account_name) as account_name,
         
         -- Financial details
         upper(trim(currency)) as currency,
         balance,
-        available_balance,
         coalesce(overdraft_limit, 0) as overdraft_limit,
         coalesce(interest_rate, 0) as interest_rate,
         
@@ -51,10 +45,6 @@ cleaned_data as (
         upper(trim(account_status)) as account_status,
         opened_date,
         closed_date,
-        
-        -- Product and branch information
-        upper(trim(product_code)) as product_code,
-        upper(trim(branch_code)) as branch_code,
         
         -- Calculated fields
         case 
@@ -82,8 +72,7 @@ cleaned_data as (
         
         -- Metadata
         created_at,
-        updated_at,
-        _loaded_at
+        updated_at
         
     from source_data
     where customer_id is not null
