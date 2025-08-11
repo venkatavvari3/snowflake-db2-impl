@@ -56,13 +56,13 @@ transaction_risk_indicators as (
         a.customer_id,
         0 as international_txn_3m,  -- Column not available in current data
         0 as unusual_hour_txn_3m,  -- Column not available in current data
-        count(case when t.is_large_withdrawal then 1 end) as large_withdrawal_3m,
-        count(case when t.transaction_value_tier = 'HIGH_VALUE' then 1 end) as high_value_txn_3m,
-        sum(case when t.transaction_direction = 'DEBIT' and t.spending_category = 'ATM' then t.absolute_amount else 0 end) as atm_withdrawals_3m,
-        count(distinct t.location_country) as countries_transacted_3m
+        0 as large_withdrawal_3m,  -- Column not available in current data
+        count(case when t.absolute_amount > 1000 then 1 end) as high_value_txn_3m,  -- Using amount threshold
+        sum(case when t.transaction_direction = 'DEBIT' and t.merchant_category = 'ATM' then t.absolute_amount else 0 end) as atm_withdrawals_3m,
+        1 as countries_transacted_3m  -- Defaulting to 1 as location data not available
     from {{ ref('fct_transactions') }} t
     join {{ ref('stg_accounts') }} a on t.account_id = a.account_id
-    where t.transaction_date >= dateadd('month', -3, current_date())
+    where t.transaction_timestamp >= dateadd('month', -3, current_date())
     group by a.customer_id
 ),
 

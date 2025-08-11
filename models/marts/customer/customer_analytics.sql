@@ -46,7 +46,7 @@ with customer_transaction_behavior as (
         
         -- Geographic patterns
         0 as international_transactions,  -- Column not available in current data
-        count(distinct t.location_country) as countries_used,
+        1 as countries_used,  -- Defaulting to 1 as location data not available
         
         -- Last transaction date
         max(t.transaction_timestamp) as last_transaction_date
