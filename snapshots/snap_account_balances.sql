@@ -1,3 +1,5 @@
+{% snapshot snap_account_balances %}
+
 -- Snapshot for tracking account balance changes
 {{ config(
     target_schema='snapshots',
@@ -14,4 +16,6 @@ select
     is_active,
     opened_date,
     updated_at
-from {{ source('raw_banking', 'accounts') }}
+from {{ ref('stg_accounts') }}
+
+{% endsnapshot %}

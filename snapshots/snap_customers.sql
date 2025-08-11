@@ -1,3 +1,5 @@
+{% snapshot snap_customers %}
+
 -- Snapshot for tracking customer changes over time
 {{ config(
     target_schema='snapshots',
@@ -18,7 +20,8 @@ select
     postal_code,
     country,
     customer_status,
-    kyc_status,
     risk_rating,
     updated_at
-from {{ source('raw_banking', 'customers') }}
+from {{ ref('stg_customers') }}
+
+{% endsnapshot %}

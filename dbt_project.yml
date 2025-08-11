@@ -42,8 +42,6 @@ models:
 snapshots:
   cap111_analytics:
     +target_schema: snapshots
-    +strategy: timestamp
-    +updated_at: updated_at
 
 # Test configurations
 tests:
