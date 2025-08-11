@@ -29,12 +29,12 @@ customer_credit as (
     select
         customer_id,
         count(*) as total_credit_products,
-        count(case when performance_status = 'PERFORMING' then 1 end) as performing_loans,
-        count(case when performance_status = 'NON_PERFORMING' then 1 end) as non_performing_loans,
+        count(case when loan_status = 'ACTIVE' then 1 end) as performing_loans,
+        count(case when loan_status != 'ACTIVE' then 1 end) as non_performing_loans,
         sum(outstanding_balance) as total_debt,
-        sum(credit_limit) as total_credit_limit,
-        avg(credit_utilization) as avg_credit_utilization,
-        max(days_past_due) as max_days_past_due
+        sum(loan_amount) as total_credit_limit,
+        avg(case when loan_amount > 0 then outstanding_balance / loan_amount else 0 end) as avg_credit_utilization,
+        0 as max_days_past_due  -- Column not available in current data
     from {{ ref('stg_credit_loans') }}
     where loan_status != 'CLOSED'
     group by customer_id
@@ -48,10 +48,10 @@ customer_transactions as (
         sum(case when t.transaction_direction = 'DEBIT' then abs(t.amount) else 0 end) as total_spending_3m,
         sum(case when t.transaction_direction = 'CREDIT' then t.amount else 0 end) as total_income_3m,
         avg(case when t.transaction_direction = 'DEBIT' then abs(t.amount) end) as avg_transaction_amount,
-        count(case when t.is_international then 1 end) as international_transactions
+        0 as international_transactions  -- Column not available in current data
     from {{ ref('stg_transactions') }} t
     join {{ ref('stg_accounts') }} a on t.account_id = a.account_id
-    where t.transaction_date >= dateadd('month', -3, current_date())
+    where t.transaction_timestamp >= dateadd('month', -3, current_date())
     group by t.account_id, a.customer_id
 ),
 
@@ -83,7 +83,6 @@ select
     c.customer_since,
     c.tenure_years,
     c.customer_status,
-    c.kyc_status,
     c.risk_rating,
     
     -- Account information
