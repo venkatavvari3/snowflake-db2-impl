@@ -11,7 +11,7 @@ select
     customer_id,
     account_type,
     balance,
-    available_balance,
-    account_status,
+    is_active,
+    opened_date,
     updated_at
 from {{ source('raw_banking', 'accounts') }}

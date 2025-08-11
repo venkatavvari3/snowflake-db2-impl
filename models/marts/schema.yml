@@ -40,8 +40,8 @@ models:
           - relationships:
               to: ref('dim_customers')
               field: customer_id
-      - name: transaction_date
-        description: Date of transaction
+      - name: transaction_timestamp
+        description: Timestamp of transaction
         tests:
           - not_null
           - dbt_utils.expression_is_true:

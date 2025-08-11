@@ -22,10 +22,6 @@ sources:
             description: Date when customer relationship started
             tests:
               - not_null
-          - name: _loaded_at
-            description: Timestamp when record was loaded
-            tests:
-              - not_null
 
       - name: accounts
         description: Account information from core banking system

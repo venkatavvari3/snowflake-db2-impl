@@ -1,0 +1,53 @@
+version: 2
+
+exposures:
+  - name: customer_dashboard
+    type: dashboard
+    maturity: medium
+    url: https://analytics.company.com/dashboards/customers
+    description: >
+      Executive dashboard showing customer analytics, segmentation, 
+      and key performance indicators for the banking business.
+    
+    depends_on:
+      - ref('dim_customers')
+      - ref('customer_analytics')
+      - ref('customer_risk_profile')
+    
+    owner:
+      name: Analytics Team
+      email: analytics@company.com
+
+  - name: financial_reporting
+    type: dashboard  
+    maturity: high
+    url: https://analytics.company.com/dashboards/financial
+    description: >
+      Financial KPIs dashboard used by finance team for monthly 
+      reporting, risk assessment, and regulatory compliance.
+    
+    depends_on:
+      - ref('financial_kpis')
+      - ref('fct_transactions')
+      - ref('customer_risk_profile')
+    
+    owner:
+      name: Finance Team
+      email: finance@company.com
+
+  - name: risk_monitoring
+    type: application
+    maturity: high
+    url: https://risk.company.com/monitoring
+    description: >
+      Real-time risk monitoring application that tracks customer
+      risk profiles, fraud alerts, and compliance metrics.
+    
+    depends_on:
+      - ref('customer_risk_profile')
+      - ref('stg_fraud_alerts')
+      - ref('stg_kyc_aml')
+    
+    owner:
+      name: Risk Team
+      email: risk@company.com
