@@ -21,7 +21,6 @@ with source_data as (
         country,
         customer_since,
         customer_status,
-        kyc_status,
         risk_rating,
         created_at,
         updated_at
@@ -67,7 +66,6 @@ cleaned_data as (
         -- Dates
         customer_since,
         upper(trim(customer_status)) as customer_status,
-        upper(trim(kyc_status)) as kyc_status,
         upper(trim(risk_rating)) as risk_rating,
         
         -- Calculated fields
@@ -89,8 +87,7 @@ cleaned_data as (
         
         -- Metadata
         created_at,
-        updated_at,
-        _loaded_at
+        updated_at
         
     from source_data
 )
