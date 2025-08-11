@@ -39,13 +39,13 @@ loan_performance as (
         customer_id,
         count(*) as total_credit_products,
         sum(outstanding_balance) as total_exposure,
-        sum(case when performance_status = 'NON_PERFORMING' then outstanding_balance else 0 end) as npl_exposure,
-        sum(case when delinquency_bucket = '90+_DPD' then outstanding_balance else 0 end) as severe_delinquency_exposure,
-        max(days_past_due) as max_dpd,
-        avg(credit_utilization) as avg_utilization,
-        sum(case when product_type = 'MORTGAGE' then outstanding_balance else 0 end) as mortgage_exposure,
-        sum(case when product_type = 'CREDIT_CARD' then outstanding_balance else 0 end) as credit_card_exposure,
-        sum(case when product_type = 'PERSONAL_LOAN' then outstanding_balance else 0 end) as personal_loan_exposure
+        sum(case when loan_status != 'ACTIVE' then outstanding_balance else 0 end) as npl_exposure,
+        0 as severe_delinquency_exposure,  -- Column not available
+        0 as max_dpd,  -- Column not available
+        avg(case when loan_amount > 0 then outstanding_balance / loan_amount else 0 end) as avg_utilization,
+        sum(case when loan_type = 'MORTGAGE' then outstanding_balance else 0 end) as mortgage_exposure,
+        sum(case when loan_type = 'CREDIT' then outstanding_balance else 0 end) as credit_card_exposure,
+        sum(case when loan_type = 'PERSONAL' then outstanding_balance else 0 end) as personal_loan_exposure
     from {{ ref('stg_credit_loans') }}
     where loan_status != 'CLOSED'
     group by customer_id
@@ -54,8 +54,8 @@ loan_performance as (
 transaction_risk_indicators as (
     select
         a.customer_id,
-        count(case when t.is_international then 1 end) as international_txn_3m,
-        count(case when t.is_unusual_hour then 1 end) as unusual_hour_txn_3m,
+        0 as international_txn_3m,  -- Column not available in current data
+        0 as unusual_hour_txn_3m,  -- Column not available in current data
         count(case when t.is_large_withdrawal then 1 end) as large_withdrawal_3m,
         count(case when t.transaction_value_tier = 'HIGH_VALUE' then 1 end) as high_value_txn_3m,
         sum(case when t.transaction_direction = 'DEBIT' and t.spending_category = 'ATM' then t.absolute_amount else 0 end) as atm_withdrawals_3m,

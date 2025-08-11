@@ -20,9 +20,9 @@ loan_portfolio as (
     select
         date_trunc('month', current_date()) as report_month,
         sum(outstanding_balance) as total_loan_portfolio,
-        sum(case when performance_status = 'PERFORMING' then outstanding_balance else 0 end) as performing_loans,
-        sum(case when performance_status = 'NON_PERFORMING' then outstanding_balance else 0 end) as non_performing_loans,
-        sum(case when delinquency_bucket = '90+_DPD' then outstanding_balance else 0 end) as severely_delinquent_loans,
+        sum(case when loan_status = 'ACTIVE' then outstanding_balance else 0 end) as performing_loans,
+        sum(case when loan_status != 'ACTIVE' then outstanding_balance else 0 end) as non_performing_loans,
+        0 as severely_delinquent_loans,  -- Column not available in current data
         count(*) as total_loan_accounts,
         avg(interest_rate) as avg_interest_rate
     from {{ ref('stg_credit_loans') }}
@@ -31,15 +31,15 @@ loan_portfolio as (
 
 transaction_volumes as (
     select
-        date_trunc('month', transaction_date) as transaction_month,
+        date_trunc('month', transaction_timestamp) as transaction_month,
         count(*) as transaction_count,
         sum(case when transaction_direction = 'DEBIT' then absolute_amount else 0 end) as total_outflow,
         sum(case when transaction_direction = 'CREDIT' then absolute_amount else 0 end) as total_inflow,
         avg(absolute_amount) as avg_transaction_amount,
         count(distinct account_id) as active_accounts
     from {{ ref('fct_transactions') }}
-    where transaction_date >= dateadd('month', -12, current_date())
-    group by date_trunc('month', transaction_date)
+    where transaction_timestamp >= dateadd('month', -12, current_date())
+    group by date_trunc('month', transaction_timestamp)
 ),
 
 current_month_transactions as (
@@ -49,7 +49,7 @@ current_month_transactions as (
         sum(case when transaction_direction = 'DEBIT' then absolute_amount else 0 end) as current_month_outflow,
         sum(case when transaction_direction = 'CREDIT' then absolute_amount else 0 end) as current_month_inflow
     from {{ ref('fct_transactions') }}
-    where transaction_date >= date_trunc('month', current_date())
+    where transaction_timestamp >= date_trunc('month', current_date())
 ),
 
 customer_metrics as (

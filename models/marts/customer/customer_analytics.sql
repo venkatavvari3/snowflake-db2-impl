@@ -12,32 +12,32 @@ with customer_transaction_behavior as (
         
         -- Transaction volume metrics
         count(*) as total_transactions_12m,
-        count(case when t.transaction_date >= dateadd('month', -3, current_date()) then 1 end) as transactions_3m,
-        count(case when t.transaction_date >= dateadd('month', -1, current_date()) then 1 end) as transactions_1m,
+        count(case when t.transaction_timestamp >= dateadd('month', -3, current_date()) then 1 end) as transactions_3m,
+        count(case when t.transaction_timestamp >= dateadd('month', -1, current_date()) then 1 end) as transactions_1m,
         
         -- Spending patterns
         sum(case when t.transaction_direction = 'DEBIT' then t.absolute_amount else 0 end) as total_spending_12m,
-        sum(case when t.transaction_direction = 'DEBIT' and t.transaction_date >= dateadd('month', -3, current_date()) then t.absolute_amount else 0 end) as spending_3m,
+        sum(case when t.transaction_direction = 'DEBIT' and t.transaction_timestamp >= dateadd('month', -3, current_date()) then t.absolute_amount else 0 end) as spending_3m,
         avg(case when t.transaction_direction = 'DEBIT' then t.absolute_amount end) as avg_spending_amount,
         
         -- Income patterns
         sum(case when t.transaction_direction = 'CREDIT' then t.absolute_amount else 0 end) as total_income_12m,
-        sum(case when t.transaction_direction = 'CREDIT' and t.transaction_date >= dateadd('month', -3, current_date()) then t.absolute_amount else 0 end) as income_3m,
+        sum(case when t.transaction_direction = 'CREDIT' and t.transaction_timestamp >= dateadd('month', -3, current_date()) then t.absolute_amount else 0 end) as income_3m,
         
-        -- Channel preferences
-        count(case when t.channel = 'ONLINE' then 1 end) as online_transactions,
-        count(case when t.channel = 'MOBILE' then 1 end) as mobile_transactions,
-        count(case when t.channel = 'ATM' then 1 end) as atm_transactions,
-        count(case when t.channel = 'BRANCH' then 1 end) as branch_transactions,
-        count(case when t.channel = 'POS' then 1 end) as pos_transactions,
+        -- Channel preferences (not available in current data)
+        0 as online_transactions,
+        0 as mobile_transactions,
+        0 as atm_transactions,
+        0 as branch_transactions,
+        0 as pos_transactions,
         
-        -- Spending categories
-        sum(case when t.spending_category = 'GROCERIES' and t.transaction_direction = 'DEBIT' then t.absolute_amount else 0 end) as groceries_spending,
-        sum(case when t.spending_category = 'DINING' and t.transaction_direction = 'DEBIT' then t.absolute_amount else 0 end) as dining_spending,
-        sum(case when t.spending_category = 'RETAIL' and t.transaction_direction = 'DEBIT' then t.absolute_amount else 0 end) as retail_spending,
-        sum(case when t.spending_category = 'UTILITIES' and t.transaction_direction = 'DEBIT' then t.absolute_amount else 0 end) as utilities_spending,
-        sum(case when t.spending_category = 'FUEL' and t.transaction_direction = 'DEBIT' then t.absolute_amount else 0 end) as fuel_spending,
-        sum(case when t.spending_category = 'TRAVEL' and t.transaction_direction = 'DEBIT' then t.absolute_amount else 0 end) as travel_spending,
+        -- Spending categories (using merchant_category)
+        sum(case when t.merchant_category = 'GROCERIES' and t.transaction_direction = 'DEBIT' then t.absolute_amount else 0 end) as groceries_spending,
+        sum(case when t.merchant_category = 'FOOD & DRINK' and t.transaction_direction = 'DEBIT' then t.absolute_amount else 0 end) as dining_spending,
+        sum(case when t.merchant_category = 'RETAIL' and t.transaction_direction = 'DEBIT' then t.absolute_amount else 0 end) as retail_spending,
+        sum(case when t.merchant_category = 'UTILITIES' and t.transaction_direction = 'DEBIT' then t.absolute_amount else 0 end) as utilities_spending,
+        sum(case when t.merchant_category = 'FUEL' and t.transaction_direction = 'DEBIT' then t.absolute_amount else 0 end) as fuel_spending,
+        sum(case when t.merchant_category = 'TRAVEL' and t.transaction_direction = 'DEBIT' then t.absolute_amount else 0 end) as travel_spending,
         
         -- Timing patterns
         count(case when t.day_type = 'WEEKEND' then 1 end) as weekend_transactions,
@@ -45,15 +45,15 @@ with customer_transaction_behavior as (
         count(case when t.time_of_day = 'EVENING' then 1 end) as evening_transactions,
         
         -- Geographic patterns
-        count(case when t.is_international then 1 end) as international_transactions,
+        0 as international_transactions,  -- Column not available in current data
         count(distinct t.location_country) as countries_used,
         
         -- Last transaction date
-        max(t.transaction_date) as last_transaction_date
+        max(t.transaction_timestamp) as last_transaction_date
         
     from {{ ref('fct_transactions') }} t
     join {{ ref('stg_accounts') }} a on t.account_id = a.account_id
-    where t.transaction_date >= dateadd('month', -12, current_date())
+    where t.transaction_timestamp >= dateadd('month', -12, current_date())
     group by a.customer_id
 ),
 
